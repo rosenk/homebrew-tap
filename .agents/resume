@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v ruby >/dev/null 2>&1; then
+  echo "[resume] Ruby is unavailable; rerun .agents/setup" >&2
+  exit 1
+fi
+
+printf '[resume] Ruby %s is ready\n' "$(ruby -e 'print RUBY_VERSION')"

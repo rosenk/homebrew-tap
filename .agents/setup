@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+if ! command -v ruby >/dev/null 2>&1; then
+  echo "[setup] Installing Ruby"
+  started_at=$SECONDS
+  sudo apt-get update
+  sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ruby
+  printf '[setup] Ruby installed in %ss\n' "$((SECONDS - started_at))"
+else
+  printf '[setup] Ruby %s is already installed\n' "$(ruby -e 'print RUBY_VERSION')"
+fi
+
+echo "[setup] Checking Ruby syntax"
+started_at=$SECONDS
+ruby -c scripts/update-terminal-code.rb
+ruby -c Formula/terminal-code.rb
+printf '[setup] Syntax checks completed in %ss\n' "$((SECONDS - started_at))"
