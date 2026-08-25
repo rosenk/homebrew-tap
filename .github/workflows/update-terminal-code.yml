@@ -12,20 +12,41 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "3.4"
       - name: Update formula
         run: ruby scripts/update-terminal-code.rb
-      - name: Commit update
+      - name: Check for update
+        id: changes
         run: |
           if git diff --quiet; then
-            exit 0
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: Validate formula
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          tap_dir="$(brew --repository)/Library/Taps/rosenk/homebrew-tap"
+          mkdir -p "$(dirname "$tap_dir")"
+          ln -s "$GITHUB_WORKSPACE" "$tap_dir"
+          brew audit --strict rosenk/tap/terminal-code
+          brew install rosenk/tap/terminal-code
+          brew test rosenk/tap/terminal-code
+      - name: Commit update
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           version=$(ruby -e 'puts File.read("Formula/terminal-code.rb")[/^  version "([^"]+)"$/, 1]')
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add Formula/terminal-code.rb
           git commit -m "terminal-code ${version}"
+          gh auth setup-git
           git push

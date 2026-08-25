@@ -29,8 +29,9 @@ end
 contents = FORMULA.read
 version = release.delete_prefix("v")
 current_version = contents[/^  version "([^"]+)"$/, 1]
+abort "could not find formula version" unless current_version
 contents.sub!(/^  revision \d+\n/, "") if current_version != version
-contents.sub!(/^  version ".*"$/, %(  version "#{version}"))
+abort "could not update formula version" unless contents.sub!(/^  version ".*"$/, %(  version "#{version}"))
 
 platforms.each do |target, build|
   block = /(    url ")[^"]+\/tode-#{target}\.tar\.gz("\n    sha256 ")[0-9a-f]+(")/

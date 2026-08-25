@@ -3,7 +3,7 @@ class TerminalCode < Formula
   homepage "https://github.com/zenbu-labs/terminal-code"
   version "0.2.0"
   license "MIT"
-  revision 1
+  revision 2
 
   depends_on :linux
 
@@ -26,13 +26,15 @@ class TerminalCode < Formula
       export TODE_INSTALL_ROOT="#{libexec}"
       exec "#{libexec}/bin/tode" "$@"
     SH
+    (bin/"tode").chmod 0755
   end
 
   def caveats
     <<~EOS
       terminal-code requires a terminal supporting the Kitty graphics protocol.
       If Electron reports missing libraries on Debian/Ubuntu, install them with:
-        sudo apt-get install libnss3 libgtk-3-0 libasound2t64 libgbm1
+        sudo apt-get install libnss3 libgtk-3-0 libgbm1
+        sudo apt-get install libasound2t64  # or libasound2, depending on your release
     EOS
   end
 
