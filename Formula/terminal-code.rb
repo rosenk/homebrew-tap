@@ -3,6 +3,7 @@ class TerminalCode < Formula
   homepage "https://github.com/zenbu-labs/terminal-code"
   version "0.2.0"
   license "MIT"
+  revision 1
 
   depends_on :linux
 
@@ -22,6 +23,7 @@ class TerminalCode < Formula
         echo "terminal-code is managed by Homebrew; run: brew update && brew upgrade terminal-code" >&2
         exit 1
       fi
+      export TODE_INSTALL_ROOT="#{libexec}"
       exec "#{libexec}/bin/tode" "$@"
     SH
   end
