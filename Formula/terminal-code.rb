@@ -1,17 +1,17 @@
 class TerminalCode < Formula
   desc "VS Code inside your terminal"
   homepage "https://github.com/zenbu-labs/terminal-code"
-  version "0.3.4"
+  version "0.4.2"
   license "MIT"
 
   depends_on :linux
 
   if Hardware::CPU.arm?
-    url "https://tode-releases.zenbu-labs.workers.dev/dl/stable/v0.3.4/tode-linux-arm64.tar.gz"
-    sha256 "d322df19ac55a8c437af673636b6b17e5a8f865734a83167d6514d034fc47476"
+    url "https://tode-releases.zenbu-labs.workers.dev/dl/stable/v0.4.2/tode-linux-arm64.tar.gz"
+    sha256 "ab59e0aab3e1d171288699c3fbba508b5cf5f214f0c0db2ec42e35baf5396156"
   else
-    url "https://tode-releases.zenbu-labs.workers.dev/dl/stable/v0.3.4/tode-linux-x64.tar.gz"
-    sha256 "1df6b77eeee902ee407471957035e47fd29920981798fa4f6aa1f31b89477719"
+    url "https://tode-releases.zenbu-labs.workers.dev/dl/stable/v0.4.2/tode-linux-x64.tar.gz"
+    sha256 "a8aae8c31c649781ee4fb3b174da08163830cc10e1dcee58465cc184a152cb25"
   end
 
   def install
