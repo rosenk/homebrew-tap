@@ -35,6 +35,7 @@ jobs:
           tap_dir="$(brew --repository)/Library/Taps/rosenk/homebrew-tap"
           mkdir -p "$(dirname "$tap_dir")"
           ln -s "$GITHUB_WORKSPACE" "$tap_dir"
+          brew trust rosenk/tap
           brew audit --strict rosenk/tap/terminal-code
           brew install rosenk/tap/terminal-code
           brew test rosenk/tap/terminal-code

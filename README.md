@@ -7,8 +7,12 @@ Homebrew formulae maintained by rosenk.
 Install [terminal-code](https://github.com/zenbu-labs/terminal-code) on Linux:
 
 ```bash
+brew trust rosenk/tap
 brew install rosenk/tap/terminal-code
 ```
+
+Homebrew refuses to load formulae from non-official taps until you trust them,
+so the `brew trust` step is needed once per machine.
 
 Updates are managed exclusively by Homebrew:
 
